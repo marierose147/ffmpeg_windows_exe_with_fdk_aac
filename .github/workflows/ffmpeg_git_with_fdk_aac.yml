@@ -1,0 +1,31 @@
+name: ffmpeg_git_with_fdk_aac
+
+on:
+  push:
+    branches: 
+      - master
+  watch:
+    types: [started]
+
+jobs:
+  job1:
+    name: n4_3_1
+    runs-on: ubuntu-20.04
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Prepare environment
+      run: |
+        cd ~
+        git clone https://github.com/rdp/ffmpeg-windows-build-helpers.git
+        sudo apt-get install subversion ragel curl texinfo g++ bison flex cvs yasm automake libtool autoconf gcc cmake git make pkg-config zlib1g-dev mercurial unzip pax nasm gperf autogen bzip2 autoconf-archive p7zip-full meson clang python3-distutils python-is-python3 ed -y
+        sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686 yasm make automake autoconf git pkg-config libtool-bin nasm gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 -y
+    - name: Build
+      run: |
+        cd ~/ffmpeg-windows-build-helpers
+        ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=n4.3.1 --disable-nonfree=n --compiler-flavors=win64 --build-ffmpeg-static=y --build-ffmpeg-shared=n
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ffmpeg_git_with_fdk_aac
+        path: ~/ffmpeg-windows-build-helpers/sandbox/win64/ffmpeg_git_with_fdk_aac_n4.3.1/
