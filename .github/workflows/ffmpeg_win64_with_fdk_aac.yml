@@ -4,8 +4,8 @@ on:
   push:
     branches: 
       - master
-#  watch:
-#    types: [started]
+  watch:
+    types: [started]
 
 jobs:
   job1:
