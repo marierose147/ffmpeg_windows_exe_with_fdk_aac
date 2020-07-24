@@ -37,15 +37,15 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ffmpeg_win64_with_fdk_aac_${{ env.version }}
-        path: ${{ github.home }}/ffmpeg_win64_with_fdk_aac.7z
+        name: ffmpeg_win64_with_fdk_aac
+        path: ~/ffmpeg_win64_with_fdk_aac.7z
     - name: Upload files to a GitHub release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: ${{ github.home }}/ffmpeg_win64_with_fdk_aac.7z
+        file: ~/ffmpeg_win64_with_fdk_aac.7z
         #asset_name: ffmpeg_win64_with_fdk_aac_${{ env.version }}
         tag: ${{ github.ref }}
-        release_name: ${{ env.version }}_${{ github.run_id }}
+        release_name: ${{ github.run_id }}
         #overwrite: true
         #body: "This is my release text"
