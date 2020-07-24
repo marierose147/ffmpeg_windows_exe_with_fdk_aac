@@ -27,6 +27,7 @@ jobs:
         sudo apt-get autoremove -y
         wget --no-check-certificate https://github.com/mesonbuild/meson/releases/download/0.55.0/meson-0.55.0.tar.gz
         tar xzvf ./meson-0.55.0.tar.gz
+        cd meson-0.55.0
         sudo python3 setup.py install
     - name: Build
       run: |
