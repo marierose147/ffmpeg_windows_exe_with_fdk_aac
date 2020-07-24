@@ -10,7 +10,7 @@ on:
 jobs:
   job1:
     name: job1
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-18.04
     env: 
       VERSION: n4.3.1
     steps:
