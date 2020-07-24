@@ -1,9 +1,9 @@
 name: ffmpeg_win64_with_fdk_aac
 
 on:
-  push:
-    branches: 
-      - master
+#  push:
+#    branches: 
+#      - master
   watch:
     types: [started]
 
