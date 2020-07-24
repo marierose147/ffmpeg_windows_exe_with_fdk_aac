@@ -18,8 +18,8 @@ jobs:
       uses: actions/checkout@v2
     - run: |
       cd $HOME
-      mkdir $HOME/test/
-      echo hello > $HOME/test/world.txt
+      mkdir test/
+      echo $HOME > $HOME/test/hello1.txt
       sudo apt-get install p7zip-full -y
       7za a test-$VERSION.7z $HOME/test/
     - name: Upload artifact
