@@ -18,7 +18,7 @@ jobs:
       uses: actions/checkout@v2
     - run: |
       cd $HOME
-      mkdir test/
+      mkdir test
       echo $HOME > $HOME/test/hello1.txt
       sudo apt-get install p7zip-full -y
       7za a test-$VERSION.7z $HOME/test/
