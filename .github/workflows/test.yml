@@ -16,12 +16,13 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v2
-    - run: |
-      cd $HOME
-      mkdir test
-      echo $HOME > $HOME/test/hello1.txt
-      sudo apt-get install p7zip-full -y
-      7za a test-$VERSION.7z $HOME/test/
+    - name: Test
+      run: |
+        cd $HOME
+        mkdir $HOME/test/
+        echo $HOME > $HOME/test/hello1.txt
+        sudo apt-get install p7zip-full -y
+        7za a test-$VERSION.7z $HOME/test/
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
