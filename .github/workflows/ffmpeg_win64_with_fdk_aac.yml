@@ -37,5 +37,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ffmpeg_win64_with_fdk_aac
-        path: $HOME/ffmpeg_win64_with_fdk_aac_$VERSION.7z 
+        name: ffmpeg_win64_with_fdk_aac_${{ env.version }}
+        path: ${{ github.home }}/ffmpeg_win64_with_fdk_aac_${{ env.version }}.7z
