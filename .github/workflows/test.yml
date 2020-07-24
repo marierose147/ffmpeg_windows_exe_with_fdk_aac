@@ -1,0 +1,29 @@
+name: test
+
+on:
+  push:
+    branches: 
+      - master
+  watch:
+    types: [started]
+
+jobs:
+  job1:
+    name: job1
+    runs-on: ubuntu-20.04
+    env: 
+      VERSION: n4.3.1
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    - run: |
+      cd $HOME
+      mkdir $HOME/test/
+      echo hello > $HOME/test/world.txt
+      sudo apt-get install p7zip-full -y
+      7za a test-$VERSION.7z $HOME/test/
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: test-${{ env.version }}
+        path: ${{ github.home }}/test-${{ env.version }}.7z
