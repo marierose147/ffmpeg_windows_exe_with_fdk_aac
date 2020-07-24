@@ -28,7 +28,10 @@ jobs:
         wget --no-check-certificate https://github.com/mesonbuild/meson/releases/download/0.55.0/meson-0.55.0.tar.gz
         tar xzvf ./meson-0.55.0.tar.gz
         cd meson-0.55.0
-        sudo python3 setup.py install
+        sudo python3 setup.py clean 
+        sudo python3 setup.py build
+        sudo python3 setup.py install 
+        sudo python3 setup.py check
     - name: Build
       run: |
         cd $HOME/ffmpeg-windows-build-helpers
