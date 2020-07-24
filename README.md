@@ -25,14 +25,8 @@ such as audio, video, subtitles and related metadata.
 
 ## Documentation
 
-The offline documentation is available in the **doc/** directory.
-
 The online documentation is available in the main [website](https://ffmpeg.org)
 and in the [wiki](https://trac.ffmpeg.org).
-
-### Examples
-
-Coding examples are available in the **doc/examples** directory.
 
 ## License
 
