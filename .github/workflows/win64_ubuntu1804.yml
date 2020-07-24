@@ -1,4 +1,4 @@
-name: ffmpeg_win32_with_fdk_aac
+name: ffmpeg_win64_with_fdk_aac
 
 on:
 #  push:
@@ -33,14 +33,14 @@ jobs:
       run: |
         cd $HOME/ffmpeg-windows-build-helpers
         rm -rf sandbox
-        ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$VERSION --disable-nonfree=n --compiler-flavors=win32 --build-ffmpeg-static=y --build-ffmpeg-shared=n
+        ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$VERSION --disable-nonfree=n --compiler-flavors=win64 --build-ffmpeg-static=y --build-ffmpeg-shared=n
     - name: Create compressed file
       run: |
         sudo apt-get install p7zip-full -y
         cd $HOME
-        7za a ffmpeg_win32_with_fdk_aac.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/
+        7za a ffmpeg_win64_with_fdk_aac.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win64/ffmpeg_git_with_fdk_aac_$VERSION/
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: ffmpeg_win32_with_fdk_aac
-        path: ~/ffmpeg_win32_with_fdk_aac.7z
+        name: ffmpeg_win64_with_fdk_aac
+        path: ~/ffmpeg_win64_with_fdk_aac.7z
