@@ -26,5 +26,5 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: test-${{ env.version }}
-        path: ${{ github.home }}/test-${{ env.version }}.7z
+        name: test
+        path: ./test-$VERSION.7z
