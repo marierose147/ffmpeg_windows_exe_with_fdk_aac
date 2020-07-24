@@ -22,9 +22,9 @@ jobs:
         mkdir $HOME/test/
         echo $HOME > $HOME/test/hello1.txt
         sudo apt-get install p7zip-full -y
-        7za a test-$VERSION.7z $HOME/test/
+        7za a test.7z $HOME/test/
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: test
-        path: ./test-$VERSION.7z
+        path: ~/test.7z
