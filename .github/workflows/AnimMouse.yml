@@ -9,7 +9,7 @@ env:
   ffmpeg_version: n4.3.1
       
 jobs:
-  job1:
+  build:
     name: build
     runs-on: ubuntu-20.04
     steps:
@@ -151,6 +151,7 @@ jobs:
           path: sandbox/win32/x265_all_bitdepth/8bit/x265.exe
           
   release:
+    name: release
     needs: build
     runs-on: ubuntu-20.04
     steps:
