@@ -1,4 +1,4 @@
-name: all win64 and win32
+name: both_win64_and_win32
 
 on:
   push:
