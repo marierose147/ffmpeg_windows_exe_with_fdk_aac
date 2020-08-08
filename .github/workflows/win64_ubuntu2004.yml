@@ -28,7 +28,7 @@ jobs:
       run: |
         cd $HOME/ffmpeg-windows-build-helpers
         rm -rf sandbox
-        ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$VERSION --disable-nonfree=n --compiler-flavors=win64 --build-ffmpeg-static=y --build-ffmpeg-shared=n
+        bash ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$VERSION --disable-nonfree=n --compiler-flavors=win64 --build-ffmpeg-static=y --build-ffmpeg-shared=n
     - name: Create compressed file
       run: |
         sudo apt-get install p7zip-full -y
