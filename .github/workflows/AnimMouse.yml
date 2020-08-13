@@ -25,10 +25,12 @@ jobs:
           sudo apt-get autoremove -y
 
       - name: Move ffmpeg-windows-build-helpers
-        run: mv -v ./ffmpeg-windows-build-helpers/* ./
+        run: |
+          mv -v ./ffmpeg-windows-build-helpers/* ./
+          chmod +x cross_compile_ffmpeg.sh
           
       - name: Compile FFmpeg using ffmpeg-windows-build-helpers
-        run: bash ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --disable-nonfree=n --compiler-flavors=multi
+        run: ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --disable-nonfree=n --compiler-flavors=multi
           
       - name: Upload FFmpeg win64 with FDK AAC
         uses: actions/upload-artifact@v2
