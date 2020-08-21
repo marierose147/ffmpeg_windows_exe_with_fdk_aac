@@ -33,7 +33,7 @@ jobs:
       run: |
         sudo apt-get install p7zip-full -y
         cd $HOME
-        7za a ffmpeg_win64_with_fdk_aac.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win64/ffmpeg_git_with_fdk_aac_$VERSION/
+        7za a ffmpeg_win64_with_fdk_aac.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win64/ffmpeg_git_with_fdk_aac_$VERSION_shared/
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
