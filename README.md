@@ -38,3 +38,83 @@ GPL. Please refer to the LICENSE file for detailed information.
 Patches should be submitted to the ffmpeg-devel mailing list using
 `git format-patch` or `git send-email`. Github pull requests should be
 avoided because they are not part of our review process and will be ignored.
+
+## Configuration
+```
+ffmpeg version n4.3.1-ffmpeg-windows-build-helpers Copyright (c) 2000-2020 the FFmpeg developers
+built with gcc 10.1.0 (GCC)
+configuration:
+--enable-version3
+--enable-libcaca
+--enable-gray
+--enable-libtesseract
+--enable-fontconfig
+--enable-gmp
+--enable-gnutls
+--enable-libass
+--enable-libbluray
+--enable-libbs2b
+--enable-libflite
+--enable-libfreetype
+--enable-libfribidi
+--enable-libgme
+--enable-libgsm
+--enable-libilbc
+--enable-libmodplug
+--enable-libmp3lame
+--enable-libopencore-amrnb
+--enable-libopencore-amrwb
+--enable-libopus
+--enable-libsnappy
+--enable-libsoxr
+--enable-libspeex
+--enable-libtheora
+--enable-libtwolame
+--enable-libvo-amrwbenc
+--enable-libvorbis
+--enable-libwebp
+--enable-libzimg
+--enable-libzvbi
+--enable-libmysofa
+--enable-libopenjpeg
+--enable-libopenh264
+--enable-liblensfun
+--enable-libvmaf
+--enable-libsrt
+--enable-libaribb24
+--enable-demuxer=dash
+--enable-libxml2
+--enable-opengl
+--enable-libdav1d
+--enable-cuda-llvm
+--enable-libaom
+--enable-libvpx
+--enable-nvenc
+--enable-nvdec
+--extra-libs=-lharfbuzz
+--extra-libs=-lm
+--extra-libs=-lpthread
+--enable-amf
+--enable-libmfx
+--enable-gpl
+--enable-frei0r
+--enable-filter=frei0r
+--enable-librubberband
+--enable-libvidstab
+--enable-libx264
+--enable-libx265
+--enable-libxvid
+--enable-libdavs2
+--enable-libxavs2
+--enable-libxavs
+--enable-avresample
+--enable-static
+--enable-nonfree
+--enable-libfdk-aac
+--enable-decklink
+```
+
+## About automatic build
+
+Each time you mark a star, it will be automatically built once. Please download the latest build file from GitHub Actions.
+
