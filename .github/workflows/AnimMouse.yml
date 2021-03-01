@@ -4,10 +4,10 @@ on:
   push:
     branches:
       - master
-      
+
 env:
   ffmpeg_version: n4.3.2
-      
+
 jobs:
   build:
     name: build
@@ -15,143 +15,46 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 1
 
       - name: Install dependencies
         run: |
           git clone https://github.com/rdp/ffmpeg-windows-build-helpers.git
           sudo apt-get update
-          sudo apt-get install subversion ragel curl texinfo g++ bison flex cvs yasm automake libtool autoconf gcc cmake git make pkg-config zlib1g-dev mercurial unzip pax nasm gperf autogen bzip2 autoconf-archive p7zip-full meson clang python3-distutils python-is-python3 ed -y
-          sudo apt-get install gcc-mingw-w64-i686 g++-mingw-w64-i686 yasm make automake autoconf git pkg-config libtool-bin nasm gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 -y
-          sudo apt-get autoremove -y
+          sudo apt-get upgrade
+          sudo apt-get install ragel cvs yasm pax nasm gperf autogen autoconf-archive python3-setuptools
+          sudo -H pip3 install meson ninja
 
       - name: Move ffmpeg-windows-build-helpers
         run: |
           mv -v ./ffmpeg-windows-build-helpers/* ./
           chmod +x cross_compile_ffmpeg.sh
-          
+
       - name: Compile FFmpeg using ffmpeg-windows-build-helpers
-        run: ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --disable-nonfree=n --compiler-flavors=multi
-          
-      - name: Upload FFmpeg win64 with FDK AAC
+        run: ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --gcc-cpu-count=2 --disable-nonfree=n --sandbox-ok=y --compiler-flavors=multi
+
+      - name: 7-Zip FFmpeg win64 nonfree
+        working-directory: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}
+        run: 7z a ffmpeg-win64-nonfree.7z ffmpeg.exe ffprobe.exe ffplay.exe -mx=9
+
+      - name: 7-Zip FFmpeg win32 nonfree
+        working-directory: sandbox/win32/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}
+        run: 7z a ffmpeg-win32-nonfree.7z ffmpeg.exe ffprobe.exe ffplay.exe -mx=9
+
+      - name: Upload FFmpeg win64 nonfree
         uses: actions/upload-artifact@v2
         with:
-          name: ffmpeg-win64-nonfree
-          path: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffmpeg.exe
-          
-      - name: Upload FFmpeg win64 GPL
+          name: ffmpeg-${{ env.ffmpeg_version }}-win64-nonfree
+          path: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffmpeg-win64-nonfree.7z
+
+      - name: Upload FFmpeg win32 nonfree
         uses: actions/upload-artifact@v2
         with:
-          name: ffmpeg-win64-gpl
-          path: sandbox/cross_compilers/mingw-w64-x86_64/x86_64-w64-mingw32/bin/ffmpeg.exe
-          
-      - name: Upload FFprobe win64 with FDK AAC
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffprobe-win64-nonfree
-          path: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffprobe.exe
-          
-      - name: Upload FFprobe win64 GPL
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffprobe-win64-gpl
-          path: sandbox/cross_compilers/mingw-w64-x86_64/x86_64-w64-mingw32/bin/ffprobe.exe
-          
-      - name: Upload FFplay win64 with FDK AAC
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffplay-win64-nonfree
-          path: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffplay.exe
-          
-      - name: Upload FFplay win64 GPL
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffplay-win64-gpl
-          path: sandbox/cross_compilers/mingw-w64-x86_64/x86_64-w64-mingw32/bin/ffplay.exe
-          
-      - name: Upload FFmpeg win32 with FDK AAC
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffmpeg-win32-nonfree
-          path: sandbox/win32/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffmpeg.exe
-          
-      - name: Upload FFmpeg win32 GPL
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffmpeg-win32-gpl
-          path: sandbox/cross_compilers/mingw-w64-i686/i686-w64-mingw32/bin/ffmpeg.exe
-          
-      - name: Upload FFprobe win32 with FDK AAC
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffprobe-win32-nonfree
-          path: sandbox/win32/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffprobe.exe
-          
-      - name: Upload FFprobe win32 GPL
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffprobe-win32-gpl
-          path: sandbox/cross_compilers/mingw-w64-i686/i686-w64-mingw32/bin/ffprobe.exe
-          
-      - name: Upload FFplay win32 with FDK AAC
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffplay-win32-nonfree
-          path: sandbox/win32/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffplay.exe
-          
-      - name: Upload FFplay win32 GPL
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffplay-win32-gpl
-          path: sandbox/cross_compilers/mingw-w64-i686/i686-w64-mingw32/bin/ffplay.exe
-          
-      - name: Upload x264 win64
-        uses: actions/upload-artifact@v2
-        with:
-          name: x264-win64
-          path: sandbox/cross_compilers/mingw-w64-x86_64/x86_64-w64-mingw32/bin/x264.exe
-          
-      - name: Upload x264 win64 all bitdepth
-        uses: actions/upload-artifact@v2
-        with:
-          name: x264-win64-all-bitdepth
-          path: sandbox/win64/x264_all_bitdepth/x264.exe
-          
-      - name: Upload x265 win64
-        uses: actions/upload-artifact@v2
-        with:
-          name: x265-win64
-          path: sandbox/cross_compilers/mingw-w64-x86_64/x86_64-w64-mingw32/bin/x265.exe
-          
-      - name: Upload x265 win64 all bitdepth
-        uses: actions/upload-artifact@v2
-        with:
-          name: x265-win64-all-bitdepth
-          path: sandbox/win64/x265_all_bitdepth/8bit/x265.exe
-          
-      - name: Upload x264 win32
-        uses: actions/upload-artifact@v2
-        with:
-          name: x264-win32
-          path: sandbox/cross_compilers/mingw-w64-i686/i686-w64-mingw32/bin/x264.exe
-          
-      - name: Upload x264 win32 all bitdepth
-        uses: actions/upload-artifact@v2
-        with:
-          name: x264-win32-all-bitdepth
-          path: sandbox/win32/x264_all_bitdepth/x264.exe
-          
-      - name: Upload x265 win32
-        uses: actions/upload-artifact@v2
-        with:
-          name: x265-win32
-          path: sandbox/cross_compilers/mingw-w64-i686/i686-w64-mingw32/bin/x265.exe
-          
-      - name: Upload x265 win32 all bitdepth
-        uses: actions/upload-artifact@v2
-        with:
-          name: x265-win32-all-bitdepth
-          path: sandbox/win32/x265_all_bitdepth/8bit/x265.exe
-          
+          name: ffmpeg-${{ env.ffmpeg_version }}-win32-nonfree
+          path: sandbox/win32/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffmpeg-win32-nonfree.7z
+
   release:
     name: release
     needs: build
@@ -159,214 +62,34 @@ jobs:
     steps:
       - name: Download all builds
         uses: actions/download-artifact@v2
-          
+
       - name: Create Release
         id: create-release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: "${{ env.ffmpeg_version }}Build#${{ github.run_number }}"
-          release_name: "${{ env.ffmpeg_version }}Build#${{ github.run_number }}"
+          tag_name: "#${{ github.run_number }}"
+          release_name: "${{ env.ffmpeg_version }} #${{ github.run_number }}"
           draft: false
           prerelease: false
-          
-      - name: Upload FFmpeg win64 with FDK AAC Release Asset
+
+      - name: Upload FFmpeg win64 nonfree Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffmpeg-win64-nonfree/ffmpeg.exe
-          asset_name: ffmpeg-win64-nonfree.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFmpeg win64 GPL Release Asset
+          asset_path: ffmpeg-${{ env.ffmpeg_version }}-win64-nonfree/ffmpeg-win64-nonfree.7z
+          asset_name: ffmpeg-${{ env.ffmpeg_version }}-win64-nonfree.7z
+          asset_content_type: application/x-7z-compressed
+
+      - name: Upload FFmpeg win32 nonfree Release Asset
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffmpeg-win64-gpl/ffmpeg.exe
-          asset_name: ffmpeg-win64-gpl.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFprobe win64 with FDK AAC Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffprobe-win64-nonfree/ffprobe.exe
-          asset_name: ffprobe-win64-nonfree.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFprobe win64 GPL Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffprobe-win64-gpl/ffprobe.exe
-          asset_name: ffprobe-win64-gpl.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFplay win64 with FDK AAC Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffplay-win64-nonfree/ffplay.exe
-          asset_name: ffplay-win64-nonfree.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFplay win64 GPL Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffplay-win64-gpl/ffplay.exe
-          asset_name: ffplay-win64-gpl.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFmpeg win32 with FDK AAC Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffmpeg-win32-nonfree/ffmpeg.exe
-          asset_name: ffmpeg-win32-nonfree.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFmpeg win32 GPL Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffmpeg-win32-gpl/ffmpeg.exe
-          asset_name: ffmpeg-win32-gpl.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFprobe win32 with FDK AAC Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffprobe-win32-nonfree/ffprobe.exe
-          asset_name: ffprobe-win32-nonfree.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFprobe win32 GPL Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffprobe-win32-gpl/ffprobe.exe
-          asset_name: ffprobe-win32-gpl.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFplay win32 with FDK AAC Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffplay-win32-nonfree/ffplay.exe
-          asset_name: ffplay-win32-nonfree.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload FFplay win32 GPL Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffplay-win32-gpl/ffplay.exe
-          asset_name: ffplay-win32-gpl.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x264 win64 Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x264-win64/x264.exe
-          asset_name: x264-win64.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x264 win64 all bitdepth Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x264-win64-all-bitdepth/x264.exe
-          asset_name: x264-win64-all-bitdepth.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x265 win64 Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x265-win64/x265.exe
-          asset_name: x265-win64.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x265 win64 all bitdepth Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x265-win64-all-bitdepth/x265.exe
-          asset_name: x265-win64-all-bitdepth.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x264 win32 Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x264-win32/x264.exe
-          asset_name: x264-win32.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x264 win32 all bitdepth Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x264-win32-all-bitdepth/x264.exe
-          asset_name: x264-win32-all-bitdepth.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x265 win32 Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x265-win32/x265.exe
-          asset_name: x265-win32.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
-          
-      - name: Upload x265 win32 all bitdepth Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: x265-win32-all-bitdepth/x265.exe
-          asset_name: x265-win32-all-bitdepth.exe
-          asset_content_type: application/vnd.microsoft.portable-executable
+          asset_path: ffmpeg-${{ env.ffmpeg_version }}-win32-nonfree/ffmpeg-win32-nonfree.7z
+          asset_name: ffmpeg-${{ env.ffmpeg_version }}-win32-nonfree.7z
+          asset_content_type: application/x-7z-compressed
