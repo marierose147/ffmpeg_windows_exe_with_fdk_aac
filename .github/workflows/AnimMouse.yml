@@ -32,9 +32,7 @@ jobs:
         run: |
           git clone https://github.com/rdp/ffmpeg-windows-build-helpers.git
           sudo apt update
-          sudo apt upgrade
-          sudo apt install ragel cvs yasm pax nasm gperf autogen autoconf-archive python3-setuptools
-          sudo -H pip3 install meson ninja
+          sudo apt install subversion ragel curl texinfo g++ bison flex cvs yasm automake libtool libtool-bin autoconf gcc cmake git make pkg-config zlib1g-dev unzip pax nasm gperf autogen bzip2 autoconf-archive p7zip-full meson clang gcc-mingw-w64-i686 g++-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 python3-distutils python-is-python3 -y
 
       - name: Move ffmpeg-windows-build-helpers
         run: |
