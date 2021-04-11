@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  ffmpeg_version: n4.3.2
+  ffmpeg_version: n4.4
 
 jobs:
   build:
