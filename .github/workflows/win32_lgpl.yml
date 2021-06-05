@@ -4,8 +4,9 @@ on:
 #  push:
 #    branches: 
 #      - master
-  watch:
-    types: [started]
+#  watch:
+#    types: [started]
+  workflow_dispatch:
 
 jobs:
   job1:
@@ -30,7 +31,7 @@ jobs:
     - name: Create compressed file
       run: |
         cd $HOME
-        7za a ffmpeg_win32_lgpl.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_lgpl_master/
+        7za a ffmpeg_win32_lgpl.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_lgpl_$VERSION/ffmpeg.exe $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_lgpl_$VERSION/ffprobe.exe $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_lgpl_$VERSION/ffplay.exe -mx=9
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:

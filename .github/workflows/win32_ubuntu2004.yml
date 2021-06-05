@@ -4,8 +4,9 @@ on:
 #  push:
 #    branches: 
 #      - master
-  watch:
-    types: [started]
+#  watch:
+#    types: [started]
+  workflow_dispatch:
 
 jobs:
   job1:
@@ -30,9 +31,19 @@ jobs:
     - name: Create compressed file
       run: |
         cd $HOME
-        7za a ffmpeg_win32_with_fdk_aac.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/
+        7za a ffmpeg_win32_with_fdk_aac.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/ffmpeg.exe $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/ffprobe.exe $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/ffplay.exe -mx=9
+    - name: Create compressed file
+      run: |
+        cd $HOME
+        7za a ffmpeg_win32_with_fdk_aac_g.7z $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/ffmpeg_g.exe $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/ffprobe_g.exe $HOME/ffmpeg-windows-build-helpers/sandbox/win32/ffmpeg_git_with_fdk_aac_$VERSION/ffplay_g.exe -mx=9
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
         name: ffmpeg_win32_with_fdk_aac
         path: ~/ffmpeg_win32_with_fdk_aac.7z
+    - name: Upload artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: ffmpeg_win32_with_fdk_aac
+        path: ~/ffmpeg_win32_with_fdk_aac_g.7z
+        
