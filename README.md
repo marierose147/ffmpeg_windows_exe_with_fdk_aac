@@ -41,80 +41,104 @@ avoided because they are not part of our review process and will be ignored.
 
 ## Configuration
 ```
-ffmpeg version n4.3.1-ffmpeg-windows-build-helpers Copyright (c) 2000-2020 the FFmpeg developers
-built with gcc 10.1.0 (GCC)
-configuration:
---enable-version3
---enable-libcaca
---enable-gray
---enable-libtesseract
---enable-fontconfig
---enable-gmp
---enable-gnutls
---enable-libass
---enable-libbluray
---enable-libbs2b
---enable-libflite
---enable-libfreetype
---enable-libfribidi
---enable-libgme
---enable-libgsm
---enable-libilbc
---enable-libmodplug
---enable-libmp3lame
---enable-libopencore-amrnb
---enable-libopencore-amrwb
---enable-libopus
---enable-libsnappy
---enable-libsoxr
---enable-libspeex
---enable-libtheora
---enable-libtwolame
---enable-libvo-amrwbenc
---enable-libvorbis
---enable-libwebp
---enable-libzimg
---enable-libzvbi
---enable-libmysofa
---enable-libopenjpeg
---enable-libopenh264
---enable-liblensfun
---enable-libvmaf
---enable-libsrt
---enable-libaribb24
---enable-demuxer=dash
---enable-libxml2
---enable-opengl
---enable-libdav1d
---enable-cuda-llvm
---enable-libaom
---enable-libvpx
---enable-nvenc
---enable-nvdec
---extra-libs=-lharfbuzz
---extra-libs=-lm
---extra-libs=-lpthread
---enable-amf
---enable-libmfx
---enable-gpl
---enable-frei0r
---enable-filter=frei0r
---enable-librubberband
---enable-libvidstab
---enable-libx264
---enable-libx265
---enable-libxvid
---enable-libdavs2
---enable-libxavs2
---enable-libxavs
---enable-avresample
---enable-static
---enable-nonfree
---enable-libfdk-aac
---enable-decklink
+ffmpeg version n4.4-ffmpeg-windows-build-helpers Copyright (c) 2000-2021 the FFmpeg developers
+  built with gcc 10.2.0 (GCC)
+  configuration: --pkg-config=pkg-config --pkg-config-flags=--static --extra-version=ffmpeg-windows-build-helpers --enable-version3 --disable-debug --disable-w32threads --arch=x86_64 --target-os=mingw32 --cross-prefix=/home/runner/work/ffmpeg_windows_exe_with_fdk_aac/ffmpeg_windows_exe_with_fdk_aac/sandbox/cross_compilers/mingw-w64-x86_64/bin/x86_64-w64-mingw32- --enable-libcaca --enable-gray --enable-libtesseract --enable-fontconfig --enable-gmp --enable-gnutls --enable-libass --enable-libbluray --enable-libbs2b --enable-libflite --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libilbc --enable-libmodplug --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopus --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtwolame --enable-libvo-amrwbenc --enable-libvorbis --enable-libwebp --enable-libzimg --enable-libzvbi --enable-libmysofa --enable-libopenjpeg --enable-libopenh264 --enable-liblensfun --enable-libvmaf --enable-libsrt --enable-libxml2 --enable-opengl --enable-libdav1d --enable-cuda-llvm --enable-libsvthevc --enable-libsvtav1 --enable-libaom --enable-libvpx --enable-nvenc --enable-nvdec --extra-libs=-lharfbuzz --extra-libs=-lm --extra-libs=-lpthread --extra-cflags=-DLIBTWOLAME_STATIC --extra-cflags=-DMODPLUG_STATIC --extra-cflags=-DCACA_STATIC --enable-amf --enable-libmfx --enable-gpl --enable-frei0r --enable-librubberband --enable-libvidstab --enable-libx264 --enable-libx265 --enable-avisynth --enable-libaribb24 --enable-libxvid --enable-libdavs2 --enable-libxavs2 --enable-libxavs --extra-cflags='-mtune=generic' --extra-cflags=-O3 --enable-static --disable-shared --prefix=/home/runner/work/ffmpeg_windows_exe_with_fdk_aac/ffmpeg_windows_exe_with_fdk_aac/sandbox/cross_compilers/mingw-w64-x86_64/x86_64-w64-mingw32 --enable-nonfree --enable-libfdk-aac --enable-decklink
+  libavutil      56. 70.100 / 56. 70.100
+  libavcodec     58.134.100 / 58.134.100
+  libavformat    58. 76.100 / 58. 76.100
+  libavdevice    58. 13.100 / 58. 13.100
+  libavfilter     7.110.100 /  7.110.100
+  libswscale      5.  9.100 /  5.  9.100
+  libswresample   3.  9.100 /  3.  9.100
+  libpostproc    55.  9.100 / 55.  9.100
+
+  configuration:
+    --pkg-config=pkg-config --pkg-config-flags=--static
+    --extra-version=ffmpeg-windows-build-helpers
+    --enable-version3
+    --disable-debug
+    --disable-w32threads
+    --arch=x86_64
+    --target-os=mingw32
+    --cross-prefix=/home/runner/work/ffmpeg_windows_exe_with_fdk_aac/ffmpeg_windows_exe_with_fdk_aac/sandbox/cross_compilers/mingw-w64-x86_64/bin/x86_64-w64-mingw32-
+    --enable-libcaca
+    --enable-gray
+    --enable-libtesseract
+    --enable-fontconfig
+    --enable-gmp
+    --enable-gnutls
+    --enable-libass
+    --enable-libbluray
+    --enable-libbs2b
+    --enable-libflite
+    --enable-libfreetype
+    --enable-libfribidi
+    --enable-libgme
+    --enable-libgsm
+    --enable-libilbc
+    --enable-libmodplug
+    --enable-libmp3lame
+    --enable-libopencore-amrnb
+    --enable-libopencore-amrwb
+    --enable-libopus
+    --enable-libsnappy
+    --enable-libsoxr
+    --enable-libspeex
+    --enable-libtheora
+    --enable-libtwolame
+    --enable-libvo-amrwbenc
+    --enable-libvorbis
+    --enable-libwebp
+    --enable-libzimg
+    --enable-libzvbi
+    --enable-libmysofa
+    --enable-libopenjpeg
+    --enable-libopenh264
+    --enable-liblensfun
+    --enable-libvmaf
+    --enable-libsrt
+    --enable-libxml2
+    --enable-opengl
+    --enable-libdav1d
+    --enable-cuda-llvm
+    --enable-libsvthevc
+    --enable-libsvtav1
+    --enable-libaom
+    --enable-libvpx
+    --enable-nvenc
+    --enable-nvdec
+    --extra-libs=-lharfbuzz
+    --extra-libs=-lm
+    --extra-libs=-lpthread
+    --extra-cflags=-DLIBTWOLAME_STATIC
+    --extra-cflags=-DMODPLUG_STATIC
+    --extra-cflags=-DCACA_STATIC
+    --enable-amf
+    --enable-libmfx
+    --enable-gpl
+    --enable-frei0r
+    --enable-librubberband
+    --enable-libvidstab
+    --enable-libx264
+    --enable-libx265
+    --enable-avisynth
+    --enable-libaribb24
+    --enable-libxvid
+    --enable-libdavs2
+    --enable-libxavs2
+    --enable-libxavs
+    --extra-cflags='-mtune=generic'
+    --extra-cflags=-O3
+    --enable-static
+    --disable-shared
+    --prefix=/home/runner/work/ffmpeg_windows_exe_with_fdk_aac/ffmpeg_windows_exe_with_fdk_aac/sandbox/cross_compilers/mingw-w64-x86_64/x86_64-w64-mingw32
+    --enable-nonfree
+    --enable-libfdk-aac
+    --enable-decklink
 ```
 
 ## About automatic build
 
-Each time you mark a star, it will be automatically built once. Please download the latest build file from GitHub Actions.
+Each time you mark a star, it will be automatically built once. Please download the latest build file from [GitHub Actions](https://github.com/marierose147/ffmpeg_windows_exe_with_fdk_aac/actions).
 
