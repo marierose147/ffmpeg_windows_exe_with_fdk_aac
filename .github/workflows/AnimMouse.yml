@@ -40,27 +40,17 @@ jobs:
           chmod +x cross_compile_ffmpeg.sh
 
       - name: Compile FFmpeg using ffmpeg-windows-build-helpers
-        run: ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --gcc-cpu-count=2 --disable-nonfree=n --sandbox-ok=y --compiler-flavors=multi
+        run: ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --gcc-cpu-count=2 --disable-nonfree=n --sandbox-ok=y --compiler-flavors=win64
 
       - name: 7-Zip FFmpeg win64 nonfree
         working-directory: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}
         run: 7z a ffmpeg-win64-nonfree.7z ffmpeg.exe ffprobe.exe ffplay.exe -mx=9
-
-      - name: 7-Zip FFmpeg win32 nonfree
-        working-directory: sandbox/win32/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}
-        run: 7z a ffmpeg-win32-nonfree.7z ffmpeg.exe ffprobe.exe ffplay.exe -mx=9
 
       - name: Upload FFmpeg win64 nonfree
         uses: actions/upload-artifact@v2
         with:
           name: ffmpeg-${{ env.ffmpeg_version }}-win64-nonfree
           path: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffmpeg-win64-nonfree.7z
-
-      - name: Upload FFmpeg win32 nonfree
-        uses: actions/upload-artifact@v2
-        with:
-          name: ffmpeg-${{ env.ffmpeg_version }}-win32-nonfree
-          path: sandbox/win32/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}/ffmpeg-win32-nonfree.7z
 
   release:
     name: release
@@ -89,14 +79,4 @@ jobs:
           upload_url: ${{ steps.create-release.outputs.upload_url }}
           asset_path: ffmpeg-${{ env.ffmpeg_version }}-win64-nonfree/ffmpeg-win64-nonfree.7z
           asset_name: ffmpeg-${{ env.ffmpeg_version }}-win64-nonfree.7z
-          asset_content_type: application/x-7z-compressed
-
-      - name: Upload FFmpeg win32 nonfree Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create-release.outputs.upload_url }}
-          asset_path: ffmpeg-${{ env.ffmpeg_version }}-win32-nonfree/ffmpeg-win32-nonfree.7z
-          asset_name: ffmpeg-${{ env.ffmpeg_version }}-win32-nonfree.7z
           asset_content_type: application/x-7z-compressed
