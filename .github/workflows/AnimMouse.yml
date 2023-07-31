@@ -6,7 +6,7 @@ on:
       - master
 
 env:
-  ffmpeg_version: n5.1.2
+  ffmpeg_version: n6.0
 
 jobs:
   build:
@@ -32,7 +32,7 @@ jobs:
         run: |
           git clone https://github.com/rdp/ffmpeg-windows-build-helpers.git
           sudo apt update
-          sudo apt install subversion ragel curl texinfo g++ bison flex cvs yasm automake libtool libtool-bin autoconf gcc cmake git make pkg-config zlib1g-dev unzip pax nasm gperf autogen bzip2 autoconf-archive p7zip-full meson clang gcc-mingw-w64-i686 g++-mingw-w64-i686 gcc-mingw-w64-x86-64 g++-mingw-w64-x86-64 python3-distutils python-is-python3 -y
+          sudo apt install subversion ragel curl texinfo g++ ed bison flex cvs yasm automake libtool autoconf gcc cmake git make pkg-config zlib1g-dev unzip pax nasm gperf autogen bzip2 autoconf-archive p7zip-full meson clang python3-distutils python-is-python3 -y
 
       - name: Move ffmpeg-windows-build-helpers
         run: |
@@ -40,7 +40,7 @@ jobs:
           chmod +x cross_compile_ffmpeg.sh
 
       - name: Compile FFmpeg using ffmpeg-windows-build-helpers
-        run: ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --gcc-cpu-count=2 --disable-nonfree=n --sandbox-ok=y --compiler-flavors=win64
+        run: ./cross_compile_ffmpeg.sh --ffmpeg-git-checkout-version=$ffmpeg_version --disable-nonfree=n --sandbox-ok=y --compiler-flavors=win64
 
       - name: 7-Zip FFmpeg win64 nonfree
         working-directory: sandbox/win64/ffmpeg_git_with_fdk_aac_${{ env.ffmpeg_version }}
